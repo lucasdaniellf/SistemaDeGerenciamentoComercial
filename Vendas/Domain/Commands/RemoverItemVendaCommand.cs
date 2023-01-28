@@ -1,0 +1,16 @@
+﻿using Core.Commands;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Vendas.Domain.Model;
+
+namespace Vendas.Domain.Commands
+{
+    public class RemoverItemVendaCommand : ICommandRequest
+    {
+        public string VendaId { get; set; } = null!;
+        public string ProdutoId { get; set; } = null!;
+    }
+}
