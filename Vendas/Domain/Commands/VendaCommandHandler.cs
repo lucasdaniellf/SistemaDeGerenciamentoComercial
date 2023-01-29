@@ -84,28 +84,28 @@ namespace Vendas.Domain.Commands
             var vendas = await _repository.BuscarVendaPorId(command.Id, token);
             if (vendas.Any())
             {
-                var venda = vendas.First();
-                venda.CancelarVenda();
                 try
                 {
+                    var venda = vendas.First();
+                    venda.CancelarVenda();
+
                     row = await _repository.AtualizarVenda(venda, token);
+                    if (row > 0)
+                    {
+                        var produtos = new List<ProdutoVendaEventItem>();
+                        foreach (var item in venda.Items)
+                        {
+                            produtos.Add(new ProdutoVendaEventItem(item.Produto.Id, item.Quantidade));
+                        }
+
+                        var mensagem = new VendaCanceladaEvent(venda.Id, produtos);
+                        await _publisher.Enqueue(_settings.FilaVendaCancelada, mensagem.Serialize());
+                    }
                 }
                 catch (Exception)
                 {
                     _unitOfWork.CloseConnection();
                     throw;
-                }
-
-                if (row > 0)
-                {
-                    var produtos = new List<ProdutoVendaEventItem>();
-                    foreach (var item in venda.Items)
-                    {
-                        produtos.Add(new ProdutoVendaEventItem(item.Produto.Id, item.Quantidade));
-                    }
-
-                    var mensagem = new VendaCanceladaEvent(venda.Id, produtos);
-                    await _publisher.Enqueue(_settings.FilaVendaCancelada, mensagem.Serialize());
                 }
             }
             return row > 0;
@@ -161,7 +161,6 @@ namespace Vendas.Domain.Commands
 
                     }
                 }
-               
             }
             return row > 0;
         }
@@ -201,11 +200,24 @@ namespace Vendas.Domain.Commands
             var vendas = await _repository.BuscarVendaPorId(command.Id, token);
             if (vendas.Any())
             {
-                var venda = vendas.First();
-                venda.ProcessarVenda();
                 try
                 {
+                    var venda = vendas.First();
+                    venda.ProcessarVenda();
                     row = await _repository.AtualizarVenda(venda, token);
+
+                    if (row > 0)
+                    {
+                        var produtos = new List<ProdutoVendaEventItem>();
+                        foreach (var item in venda.Items)
+                        {
+                            produtos.Add(new ProdutoVendaEventItem(item.Produto.Id, item.Quantidade));
+                        }
+                        //Enviar Quantidades negativas
+                        var mensagem = new VendaConfirmadaEvent(venda.Id, produtos);
+                        await _publisher.Enqueue(_settings.FilaVendaConfirmada, mensagem.Serialize());
+                        //Evento Para Diminuir Estoque no Dominio Produto
+                    }
 
                 }
                 catch (Exception)
@@ -215,18 +227,6 @@ namespace Vendas.Domain.Commands
 
                 }
 
-                if (row > 0)
-                {
-                    var produtos = new List<ProdutoVendaEventItem>();
-                    foreach (var item in venda.Items)
-                    {
-                        produtos.Add(new ProdutoVendaEventItem(item.Produto.Id, item.Quantidade));
-                    }
-                    //Enviar Quantidades negativas
-                    var mensagem = new VendaConfirmadaEvent(venda.Id, produtos);
-                    await _publisher.Enqueue(_settings.FilaVendaConfirmada, mensagem.Serialize());
-                    //Evento Para Diminuir Estoque no Dominio Produto
-                }
             }
 
             return row > 0;
