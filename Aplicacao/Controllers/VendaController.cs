@@ -35,6 +35,14 @@ namespace AplicacaoGerenciamentoLoja.Controllers
             }
         }
 
+        [HttpGet("Periodo/")]
+        public async Task<ActionResult<IEnumerable<VendaDto>>> BuscarVendasPorPeriodo([FromQuery] CustomDate periodo, CancellationToken token)
+        {
+            var vendas = await _service.BuscarVendasPorPeriodo(periodo.FormatarDataInicio(), periodo.FormatarDataFim(), token);
+            return Ok(vendas);
+        }
+
+
         [HttpGet("{id}", Name = "BuscarVendasPorId")]
         public async Task<ActionResult<IEnumerable<VendaDto>>> BuscarVendasPorId(string id, CancellationToken token)
         {
@@ -42,27 +50,19 @@ namespace AplicacaoGerenciamentoLoja.Controllers
             return Ok(vendas);
         }
 
-        [HttpGet("clientes/")]
+        [HttpGet("Clientes/")]
         public async Task<ActionResult<IEnumerable<ClienteDto>>> BuscarClientes(CancellationToken token)
         {
             var clientes = await _service.BuscarClientes(token);
             return Ok(clientes);
         }
 
-        [HttpGet("produtos/")]
+        [HttpGet("Produtos/")]
         public async Task<ActionResult<IEnumerable<ProdutoDto>>> BuscarProdutos(CancellationToken token)
         {
             var produtos = await _service.BuscarProdutos(token);
             return Ok(produtos);
         }
-
-        [HttpGet("periodo/")]
-        public async Task<ActionResult<IEnumerable<VendaDto>>> BuscarVendasPorPeriodo([FromQuery] CustomDate periodo, CancellationToken token)
-        {
-            var vendas = await _service.BuscarVendasPorPeriodo(periodo.FormatarDataInicio(), periodo.FormatarDataFim(), token);
-            return Ok(vendas);
-        }
-
 
         [HttpPost]
         public async Task<ActionResult<IEnumerable<VendaDto>>> CriarVenda(CriarVendaCommand venda, CancellationToken token)
@@ -109,7 +109,30 @@ namespace AplicacaoGerenciamentoLoja.Controllers
             return BadRequest();
         }
 
-        [HttpDelete]
+
+        [HttpPut("Processar/")]
+        public async Task<ActionResult<IEnumerable<VendaDto>>> ConfirmarVenda(ProcessarVendaCommand venda, CancellationToken token)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var sucesso = await _handler.Handle(venda, token);
+                    if (sucesso)
+                    {
+                        return NoContent();
+                    }
+                    return NotFound();
+                }
+                catch (VendaException ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+            return BadRequest();
+        }
+
+        [HttpPut("Cancelar/")]
         public async Task<ActionResult> CancelarVenda(CancelarVendaCommand venda, CancellationToken token)
         {
             if (ModelState.IsValid)
@@ -131,7 +154,7 @@ namespace AplicacaoGerenciamentoLoja.Controllers
             return BadRequest();
         }
 
-        [HttpPost("produto/")]
+        [HttpPost("Item/")]
         public async Task<ActionResult<IEnumerable<VendaDto>>> AdicionarItemEmVenda(AdicionarItemVendaCommand item, CancellationToken token)
         {
             if (ModelState.IsValid)
@@ -155,7 +178,7 @@ namespace AplicacaoGerenciamentoLoja.Controllers
             return BadRequest();
         }
 
-        [HttpPut("produto/")]
+        [HttpPut("Item/")]
         public async Task<ActionResult<IEnumerable<VendaDto>>> AtualizarItemEmVenda(AtualizarItemVendaCommand item, CancellationToken token)
         {
             if (ModelState.IsValid)
@@ -177,7 +200,7 @@ namespace AplicacaoGerenciamentoLoja.Controllers
             return BadRequest();
         }
 
-        [HttpDelete("produto/")]
+        [HttpDelete("Item/")]
         public async Task<ActionResult<IEnumerable<VendaDto>>> RemoverItemDeVenda(RemoverItemVendaCommand item, CancellationToken token)
         {
             if (ModelState.IsValid)
@@ -185,28 +208,6 @@ namespace AplicacaoGerenciamentoLoja.Controllers
                 try
                 {
                     var sucesso = await _handler.Handle(item, token);
-                    if (sucesso)
-                    {
-                        return NoContent();
-                    }
-                    return NotFound();
-                }
-                catch (VendaException ex)
-                {
-                    return BadRequest(ex.Message);
-                }
-            }
-            return BadRequest();
-        }
-
-        [HttpPut("processar/")]
-        public async Task<ActionResult<IEnumerable<VendaDto>>> ConfirmarVenda(ProcessarVendaCommand venda, CancellationToken token)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    var sucesso = await _handler.Handle(venda, token);
                     if (sucesso)
                     {
                         return NoContent();
