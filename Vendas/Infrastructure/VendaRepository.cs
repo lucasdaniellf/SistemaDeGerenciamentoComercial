@@ -2,7 +2,6 @@
 using Dapper;
 using Vendas.Domain.Model;
 using Vendas.Domain.Repository;
-using Vendas.Query;
 using static Vendas.Domain.Model.StatusVenda;
 
 namespace Vendas.Infrastructure

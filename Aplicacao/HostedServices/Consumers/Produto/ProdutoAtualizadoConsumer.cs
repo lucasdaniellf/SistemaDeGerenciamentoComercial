@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
-using Vendas.Domain.Events;
-using Vendas.Domain.Events.Produto;
+using Vendas.Application.Events;
+using Vendas.Application.Events.Produto;
 
 namespace AplicacaoGerenciamentoLoja.HostedServices.Consumers.Produto
 {

@@ -1,5 +1,5 @@
-﻿using Clientes.Domain.Infrastructure;
-using Clientes.Domain.Model;
+﻿using Clientes.Domain.Model;
+using Clientes.Domain.Repository;
 using Core.Infrastructure;
 using Dapper;
 

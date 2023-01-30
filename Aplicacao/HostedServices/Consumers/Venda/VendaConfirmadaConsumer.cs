@@ -1,10 +1,8 @@
 ﻿using Newtonsoft.Json;
-using Vendas.Domain.Events.Produto;
-using Vendas.Domain.Events;
-using Produtos.Domain.Commands;
-using Produtos.Domain.Commands.ProdutoEstoque;
-using Vendas.Domain.Events.Vendas;
 using Core.MessageBroker;
+using Vendas.Application.Events.Vendas;
+using Produtos.Application.Commands.ProdutoEstoque;
+using Produtos.Application.Commands;
 
 namespace AplicacaoGerenciamentoLoja.HostedServices.Consumers.Venda
 {
