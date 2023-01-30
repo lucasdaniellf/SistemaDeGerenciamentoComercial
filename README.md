@@ -3,7 +3,18 @@
 SGC é um sistema online para gerenciamento de lojas comerciais, composto basicamente de três módulos: 
 **Módulo de Clientes, Módulo de Produtos, Módulo de Vendas.** Cada um dos módulos foi desenvolvido tendo em mente as necessidades das áreas a quais se direcionavam.
 
-
+## Índice
+1. [Arquitetura do Sistema](#arquitetura-do-sistema)
+2. [Módulos do Sistema](#m%C3%B3dulos-do-sistema)
+   - [Módulo de Clientes](#m%C3%B3dulo-de-clientes)
+   - [Módulo de Produtos](#m%C3%B3dulo-de-produtos)
+   - [Módulo de Vendas](#m%C3%B3dulo-de-vendas)
+3. [Ferramentas Utilizadas](#ferramentas-utilizadas-no-desenvolvimento)
+   - [Lista de Dependências](#lista-de-depend%C3%AAncias-do-projeto)
+   - [Executando em modo de Desenvolvimento](#executando-em-modo-de-desenvolvimento)
+   - [Executando via Docker](#executando-via-docker)
+4. [Problemas Conhecidos](#problemas-conhecidos)
+ 
 ## Arquitetura do Sistema
 Em termos de aplicação, embora esta esteja condensada em um único projeto para facilitar o desenvolvimento, a arquitetura do sistema foi baseada na arquitetura de 
 microserviços, de modo que os três principais módulos do sistema (citados na seção anterior) não possuem dependências entre si, se utilizando de mensageria
@@ -108,6 +119,27 @@ docker run --name some-redis -p 6379:6379 -d redis
 git clone https://github.com/lucasdaniellf/SistemaDeGerenciamentoComercial
 ```
 ![image](https://user-images.githubusercontent.com/70923700/215342966-4fc0d0c0-2acb-4a79-b4a5-6c5d552fc2ae.png)
+
+### Executando via docker
+1. Clonar repositório localmente e rodá-lo utilizando VisualStudio 2022
+```
+git clone https://github.com/lucasdaniellf/SistemaDeGerenciamentoComercial
+```
+2. Na pasta raiz do projeto, onde está localizado o arquivo docker-compose.yaml, rodar o seguinte comando via cmd:
+
+```
+docker compose up
+```
+3. Acessar a API utilizando a interface do swagger em:
+```
+http://localhost:5006/swagger/index.html 
+```
+
+![image](https://user-images.githubusercontent.com/70923700/215369226-aaabedd7-ad96-41e4-8e52-d852de4baad4.png)
+
+## Problemas Conhecidos:
+
+1. Configurar docker-compose para salvar os arquivos de banco de dados do sqlite a fim de que não se percam os dados da aplicação quando o seu container for interrompido.
 
 
 
