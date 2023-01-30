@@ -29,9 +29,12 @@ de acesso à base de dados.
 3. Query: Encapsula os DTOs (Data Objects) que representam a entidade para a camada de visualização (API) e o serviço de consultas ao banco de dados.
 
 O diagrama da arquitetura do sistema pode ser observado abaixo:
-<DIAGRAMA>
+
+![Esquema Arquitetural Projeto drawio](https://user-images.githubusercontent.com/70923700/215354066-9b5c0c17-f2cf-4d7e-bf90-d3062c393625.png)
 
 ## Módulos do Sistema
+
+![Arquitetura Modulo Sistema drawio](https://user-images.githubusercontent.com/70923700/215354867-9b2ec59a-1ec0-4f97-a65b-64311655ffd3.png)
 
 ### Módulo de Clientes
 1. Consulta de Clientes
@@ -59,25 +62,52 @@ O módulo de vendas, como o próprio nome sugere, é o responsável pelo gerenci
 4. Processar a venda
 
 A operação de venda, no entanto, depende dos produtos e clientes que são gerenciados pelos outros dois módulos. A fim de evitar o acoplamento entre estes,
-o módulo de venda possui em seu banco de dados as informações de produtos e clientes que são espelhadas de seus respectivos módulos. Os produtos e clientes são 
-atualizados ou adicionados via eventos. Por exemplo, uma ação de cadastro de cliente:
+o módulo de venda possui em seu banco de dados as informações de produtos e clientes que são espelhadas de seus respectivos módulos. Por exemplo, para uma ação de cadastro de cliente, o espelhamento dos dados na base de vendas segue o fluxo abaixo:
 
 1. Cliente cadastrado no módulo de Clientes.
 2. Evento de Notificação de Cliente Cadastrado é disparado.
 3. Consumidor recebe a mensagem e a repassa ao EventHandler do módulo de Vendas (ClienteAtualizadoEvent).
 4. O cliente é registrado/atualizado no banco de dados do módulo de vendas.
 
-Dessa forma, nenhum comando pode ser executado no módulo de vendas para cadastrar/atualizar/ativar/inativar clientes ou produtos, visto que essa é uma responsabilidade
-de seus próprios módulos, e a sincronização desses dados é realizada via mensageria, como já fora mencionado. Esse modelo isola os módulos e, em um posterior
-desenvolvimento que venha a separar os módulos em sistemas que operam independentemente, o Módulo de Vendas poderá continuar operando mesmo que o sistema de Clientes 
-e/ou Produtos esteja indisponível.
+Dessa forma, nenhum comando pode ser executado no módulo de vendas para cadastrar/atualizar/ativar/inativar clientes ou produtos, visto que essa é uma responsabilidade de seus próprios módulos, e a sincronização desses dados é realizada via mensageria, como já fora mencionado. Esse modelo isola os módulos e, em um posterior desenvolvimento que venha a separar os módulos em sistemas que operam independentemente, o Módulo de Vendas poderá continuar operando mesmo que o sistema de Clientes e/ou Produtos esteja indisponível.
 
-Outro ponto a ser ressaltado: para que a operação de venda aconteça com sucesso, o registro da venda deve passar por todas as validações que estão definidas como
-regras de negócio na entidade Venda. O fluxo do processamento de uma venda (confirmação por parte do usuário e aprovação por parte do sistema) pode ser observado abaixo:
-<FLUXO>
+Outro ponto a ser ressaltado: para que a operação de venda aconteça com sucesso, o registro da venda deve passar por todas as validações que estão definidas como regras de negócio na entidade Venda. O fluxo do processamento de uma venda (confirmação por parte do usuário e aprovação por parte do sistema) pode ser observado abaixo:
 
-## Dependências e Ferramentas Utilizadas
+1. Requisição de confirmação de venda (Validação de regras de negócio e alteração do status da venda para processando).
+2. Disparo de notificação informando a requisição da confirmação de venda.
+3. Baixa do estoque no módulo de produtos.
+4. Em caso de baixa com sucesso, disparo da de notificação de aprovação da venda e de notificação de alteração do estoque;
+5. Atualização do status da venda para aprovado.
+6. Atualização de estoque na tabela de produtos do módulo de venda 
 
+
+![Fluxo Venda drawio](https://user-images.githubusercontent.com/70923700/215360033-9e10c814-736e-4ee9-87f7-ed1e9c20f7c9.png)
+
+
+## Ferramentas Utilizadas no Desenvolvimento
+1. .NET 6
+2. Docker e Redis ver. 7.0.8 (Mensageria)
+3. Sqlite3 (Banco de Dados)
+
+### Lista de Dependências do Projeto
+1. Dapper
+2. Microsoft.Data.Sqlite
+3. Microsoft.Data.Sqlite.Core
+4. Microsoft.Extensions.Options
+5. Newtonsoft.Json
+6. StackExchange.Redis
+7. Swashbuckle.AspNetCore
+
+### Executando em modo de Desenvolvimento
+1. Puxar e rodar a imagem do Redis diretamente do Docker Hub executando via cmd:
+```
+docker run --name some-redis -p 6379:6379 -d redis
+```
+2. Clonar repositório localmente e rodá-lo utilizando VisualStudio 2022
+```
+git clone https://github.com/lucasdaniellf/SistemaDeGerenciamentoComercial
+```
+![image](https://user-images.githubusercontent.com/70923700/215342966-4fc0d0c0-2acb-4a79-b4a5-6c5d552fc2ae.png)
 
 
 
