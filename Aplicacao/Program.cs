@@ -59,7 +59,7 @@ builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
 builder.Services.AddScoped<IVendaRepository, VendaRepository>();
 
 
-builder.Services.AddScoped<IConnectionMultiplexer>(_ => ConnectionMultiplexer.Connect(builder.Configuration.GetSection("Redis")["RedisConnectionDev"]));
+builder.Services.AddScoped<IConnectionMultiplexer>(_ => ConnectionMultiplexer.Connect(builder.Configuration.GetSection("Redis")["RedisConnection"]));
 builder.Services.AddScoped<IMessageBrokerPublisher, RedisPublisher>();
 builder.Services.AddScoped<IMessageBrokerSubscriber, RedisSubscriber>();
 
