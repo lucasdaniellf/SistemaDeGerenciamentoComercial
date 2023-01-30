@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
-using Vendas.Domain.Events;
-using Vendas.Domain.Events.Cliente;
+using Vendas.Application.Events;
+using Vendas.Application.Events.Cliente;
 
 namespace AplicacaoGerenciamentoLoja.HostedServices.Consumers.Cliente
 {

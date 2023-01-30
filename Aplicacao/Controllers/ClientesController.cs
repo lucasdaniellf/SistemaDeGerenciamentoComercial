@@ -1,7 +1,7 @@
-﻿using Clientes.Domain;
-using Clientes.Domain.Commands;
-using Clientes.Query;
-using Clientes.Query.DTO;
+﻿using Clientes.Application.Commands;
+using Clientes.Application.Query;
+using Clientes.Application.Query.DTO;
+using Clientes.Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AplicacaoGerenciamentoLoja.Controllers

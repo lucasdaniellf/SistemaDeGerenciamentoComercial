@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Produtos.Application.Commands;
+using Produtos.Application.Commands.ProdutoEstoque;
+using Produtos.Application.Query;
+using Produtos.Application.Query.DTO;
 using Produtos.Domain;
-using Produtos.Domain.Commands;
-using Produtos.Domain.Commands.ProdutoEstoque;
-using Produtos.Query;
-using Produtos.Query.DTO;
 
 namespace AplicacaoGerenciamentoLoja.Controllers
 {

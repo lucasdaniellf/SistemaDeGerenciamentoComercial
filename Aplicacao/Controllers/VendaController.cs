@@ -1,10 +1,10 @@
 ﻿using AplicacaoGerenciamentoLoja.CustomParameters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Vendas.Application.Commands;
+using Vendas.Application.Query;
 using Vendas.Domain;
-using Vendas.Domain.Commands;
 using Vendas.Domain.Model;
-using Vendas.Query;
 
 namespace AplicacaoGerenciamentoLoja.Controllers
 {
