@@ -31,13 +31,14 @@ e o projeto **Core**, composto por classes e interfaces implementadas pelos mód
 Os módulos de negócios estão divididos em camadas:
 
 1. Camada de Domínio: Encapsula toda a lógica de negócios para o módulo. Em nosso sistema, é subdividido em:
-   1. Contém as entidades e objetos de valores necessários ao módulo. 
-   2. Commands: Implementação dos comandos que podem ser executados pelo domínio.
-   3. Events: Implementação das mensagens de eventos que são enviados ou recebidos pelo domínio através de mensageria.
-   4. Repository: Interface do repositório para as chamadas feitas ao banco de dados.
-2. Camada de Infraestrutura (Infrastructure): Encapsula as classes necessárias para implementação do padrão Unit Of Work/Repository e a implementação da classe
+   1. Model: Contém as entidades e objetos de valores necessários ao módulo. 
+   2. Repository: Interface do repositório para as chamadas feitas ao banco de dados.
+2. Camada de Aplicação:
+   1. Commands: Implementação dos comandos que podem ser executados pelo domínio.
+   2. Events: Implementação das mensagens de eventos que são enviados ou recebidos pelo domínio através de mensageria.
+   3. Query: Encapsula os DTOs (Data Objects) que representam a entidade para a camada de visualização (API) e o serviço de consultas ao banco de dados.
+3. Camada de Infraestrutura (Infrastructure): Encapsula as classes necessárias para implementação do padrão Unit Of Work/Repository e a implementação da classe
 de acesso à base de dados.
-3. Query: Encapsula os DTOs (Data Objects) que representam a entidade para a camada de visualização (API) e o serviço de consultas ao banco de dados.
 
 O diagrama da arquitetura do sistema pode ser observado abaixo:
 
