@@ -1,7 +1,6 @@
-# SGC Backend - Sistema De Gerenciamento Comercial
+# Sistema De Gerenciamento Comercial - Backend
 
-SGC é um sistema online para gerenciamento de lojas comerciais que pode ser dividido em três módulos: 
-**Módulo de Clientes, Módulo de Produtos, Módulo de Vendas.** Cada um dos módulos foi desenvolvido tendo em mente as necessidades das áreas a quais se direcionavam.
+Sistema online para gerenciamento de lojas comerciais que pode ser dividido em três módulos: **Módulo de Clientes, Módulo de Produtos, Módulo de Vendas.** Cada um dos módulos foi desenvolvido tendo em mente as necessidades das áreas a quais se direcionavam.
 
 ## Índice
 1. [Arquitetura do Sistema](#arquitetura-do-sistema)
