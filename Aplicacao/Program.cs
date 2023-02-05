@@ -18,6 +18,7 @@ using Produtos.Domain.Model;
 using Produtos.Domain.Repository;
 using Produtos.Infrastructure;
 using StackExchange.Redis;
+using System.Net;
 using Vendas.Application.Commands;
 using Vendas.Application.Events;
 using Vendas.Application.Query;
@@ -77,13 +78,6 @@ builder.Services.AddEndpointsApiExplorer();
 //Configuração necessária devido ao enum Status estar presente em 3 projetos distintos, causando conflito no Swagger
 builder.Services.AddSwaggerGen();
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-//{
-//    app.UseSwagger();
-//    app.UseSwaggerUI();
-//}
 
 app.UseSwagger();
 app.UseSwaggerUI();
