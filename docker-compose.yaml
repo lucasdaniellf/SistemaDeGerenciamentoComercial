@@ -18,6 +18,8 @@ services:
     image: sgc_app
     container_name: 'sgc'
     restart: always
+    volumes:
+      - database:/app/Aplicacao/db
     ports:
       - 7006:443
       - 5006:80
@@ -29,3 +31,5 @@ services:
 networks:
   app-compose-network:
     driver: bridge
+volumes:
+  database:
