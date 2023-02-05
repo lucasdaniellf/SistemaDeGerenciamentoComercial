@@ -137,10 +137,6 @@ http://localhost:5006/swagger/index.html
 
 ![image](https://user-images.githubusercontent.com/70923700/215369226-aaabedd7-ad96-41e4-8e52-d852de4baad4.png)
 
-## Problemas Conhecidos:
-
-1. Configurar docker-compose para salvar os arquivos de banco de dados do sqlite a fim de que não se percam os dados da aplicação quando o seu container for interrompido.
-
 
 
 
